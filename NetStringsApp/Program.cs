@@ -21,7 +21,8 @@ namespace NetStringsApp
             \S - все кроме пробельные символы
             \d - любая цифра
             \D - все кроме любая цифра
-
+            {} - количество пвторов для предыдущего сивола
+            [] - набор символов
             */
 
 
@@ -31,6 +32,37 @@ namespace NetStringsApp
             MatchCollection matches = regex.Matches(str);
             foreach (Match match in matches)
                 Console.WriteLine(match.Value);
+
+            // 123 456-1234
+            Regex phoneRegex = new(@"^[0-9]{3}\s+[0-9]{3}-[0-9]{4}$"); // new(@"^\d{3}\s+\d{3}-\d{4}$");
+            // @"[0-9]{3}\s+[0-9]{3}-[0-9]{4}"
+
+            string phoneNumber = "123 456-1234";
+            Console.WriteLine(phoneRegex.IsMatch(phoneNumber));
+
+            Regex emailRegex = new(@"^[(^@)\w]+[(^@)\w-_.]*@[(^@)\w]+[(^@)\w-_.]*\.[(^@)A-Za-z]+$");
+
+            List<string> emails = new List<string>() 
+            { 
+                "bobsmith@gmail.com",
+                "bob$smith@gmail.com",
+                "bob_smith@gmail.com",
+                "bob.smith@gmailcom",
+            };
+
+            foreach (string email in emails)
+                if (emailRegex.IsMatch(email))
+                    Console.WriteLine(email);
+
+            
+            string pattern = @"\D";
+            string replaceStr = "";
+
+            string phoneStr = "+7 (999) 123-45-67";
+
+            string resultStr = Regex.Replace(phoneStr, pattern, replaceStr);
+            Console.WriteLine(resultStr);
+
         }
 
         static void StringExample()
